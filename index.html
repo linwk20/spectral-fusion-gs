@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Enhancing Sparse-View Gaussian Splatting with Feed-Forward Priors via Spectral Fusion and Distillation</title>
+    <meta
+      name="description"
+      content="A plug-and-play method that fuses a feed-forward NVS prior with sparse-view Gaussians per frequency and distills the result back into Gaussians: +1.0 to +1.2 dB PSNR at 917 FPS."
+    />
+    <meta name="theme-color" content="#0d1b24" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Enhancing Sparse-View Gaussian Splatting with Feed-Forward Priors via Spectral Fusion and Distillation" />
+    <meta property="og:description" content="Low frequencies from the prior, high frequencies from the Gaussians. +1.0 to +1.2 dB PSNR at the same real-time speed." />
+    <meta property="og:image" content="assets/img/tradeoff.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <header class="site-header" data-header>
+      <nav class="nav shell" aria-label="Primary navigation">
+        <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true"></span><span>Spectral Fusion</span></a>
+        <div class="nav-links">
+          <a href="#video">Video</a>
+          <a href="#observation">Observation</a>
+          <a href="#method">Method</a>
+          <a href="#results">Results</a>
+          <a href="#citation">Citation</a>
+          <a class="nav-paper" href="#citation">Paper</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="top">
+        <div class="hero-grid shell">
+          <div class="hero-copy">
+            <div class="venue-pill"><span aria-hidden="true"></span> Preprint · 2026</div>
+            <p class="hero-kicker">Low frequencies from the prior. High frequencies from the Gaussians.</p>
+            <h1>Enhancing Sparse-View Gaussian Splatting with Feed-Forward Priors via <em>Spectral Fusion</em> and <em>Distillation</em></h1>
+
+            <div class="authors" aria-label="Authors">
+              <a href="https://linwk20.github.io/" target="_blank" rel="noreferrer">Weikai Lin</a>
+              <span>Jun Dai</span>
+              <span>Sheng Zhao</span>
+              <span>Junjie Zhao</span>
+              <a href="https://horizon-lab.org/" target="_blank" rel="noreferrer">Yuhao Zhu</a>
+            </div>
+            <div class="affiliations"><span>University of Rochester</span></div>
+
+            <p class="hero-summary">
+              A plug-and-play method that enhances any sparse-view Gaussian model with a pretrained feed-forward novel view synthesis model.
+              We fuse the two per frequency with a one-parameter low-pass kernel, then distill the fused images back into the Gaussians, so the result renders as fast as the base model.
+            </p>
+
+            <div class="hero-actions">
+              <a class="button button-primary is-disabled" href="#citation" aria-disabled="true">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h9l5 5v15H6z M14 2v6h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+                Paper (arXiv, coming soon)
+              </a>
+              <a class="button button-secondary" href="#video">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>
+                Video
+              </a>
+              <a class="button button-quiet" href="#citation">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                BibTeX
+              </a>
+            </div>
+          </div>
+
+          <aside class="hero-signal" aria-label="Headline result">
+            <div class="signal-orbit" aria-hidden="true"><span></span><span></span><span></span></div>
+            <p class="signal-label">StereoGS + Ours, all 42 settings</p>
+            <p class="signal-number"><strong>917</strong></p>
+            <p class="signal-unit">frames per second</p>
+            <div class="signal-rule"></div>
+            <p class="signal-gain"><strong>+1.0 dB</strong> PSNR over StereoGS (882 FPS)</p>
+            <p class="signal-context">RTX 5090 · LLFF + Mip-NeRF 360</p>
+          </aside>
+        </div>
+
+        <div class="video-wrap shell" id="video">
+          <div class="video-heading">
+            <h2>Video</h2>
+            <span>Overview and results · 2:04</span>
+          </div>
+          <figure class="card video-card">
+            <video width="1920" height="1080" controls playsinline preload="metadata" poster="assets/video/poster.jpg">
+              <source src="assets/video/spectral_fusion_video.mp4" type="video/mp4" />
+              Your browser cannot play this video. <a href="assets/video/spectral_fusion_video.mp4">Download the video</a>.
+            </video>
+          </figure>
+        </div>
+      </section>
+
+      <section class="metrics-band" aria-label="Key results">
+        <div class="metrics shell">
+          <article>
+            <p class="metric-value">+1.0–1.2 dB</p>
+            <p class="metric-label">PSNR gain</p>
+            <p class="metric-detail">on StereoGS, DropGaussian and FSGS, averaged over 42 settings</p>
+          </article>
+          <article>
+            <p class="metric-value">917 FPS</p>
+            <p class="metric-label">real-time rendering</p>
+            <p class="metric-detail">distillation adds no Gaussians and no network</p>
+          </article>
+          <article>
+            <p class="metric-value">28×</p>
+            <p class="metric-label">faster than the teacher</p>
+            <p class="metric-detail">at a similar quality to the fused teacher</p>
+          </article>
+          <article>
+            <p class="metric-value">1</p>
+            <p class="metric-label">fitted parameter</p>
+            <p class="metric-detail">the crossover frequency of a first-order low-pass kernel</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section shell" id="overview">
+        <div class="section-heading">
+          <p class="section-kicker">Overview</p>
+          <h2>Better quality on every base method, at the same speed.</h2>
+          <p class="section-lede">
+            Sparse-view Gaussians render in real time but break far from the training views.
+            Feed-forward NVS models carry a prior learned from many scenes, but render more than ten times slower and leave high-frequency artifacts on out-of-domain scenes.
+            Our method takes the strengths of both.
+          </p>
+        </div>
+        <figure class="card figure-wide">
+          <img src="assets/img/tradeoff.png" alt="Quality against rendering speed for each dataset and view count" loading="lazy" />
+          <figcaption>Quality against rendering speed on an RTX 5090, for each dataset and view count. Our method reaches the highest quality at more than 900 FPS.</figcaption>
+        </figure>
+      </section>
+
+      <section class="section section-tint" id="observation">
+        <div class="shell">
+          <div class="section-heading">
+            <p class="section-kicker">Observation</p>
+            <h2>The prior and the Gaussians are complementary in frequency.</h2>
+            <p class="section-lede">
+              We compare the errors of the two models at every spatial frequency.
+              The error of the Gaussians rises on a straight line in log frequency, while the error of the prior starts lower and rises faster.
+              The two curves cross once: below the crossover the prior is more accurate, above it the Gaussians are.
+            </p>
+          </div>
+          <div class="grid-2">
+            <figure class="card">
+              <img src="assets/img/motiv_curve_col.png" alt="Similarity to ground truth per frequency" loading="lazy" />
+              <figcaption>Similarity of the two methods to the ground truth per frequency, on <code>garden</code> with 12 views.</figcaption>
+            </figure>
+            <figure class="card">
+              <img src="assets/img/motiv_artifact_col.jpg" alt="High-frequency artifacts of LagerNVS" loading="lazy" />
+              <figcaption>LagerNVS renders high-frequency artifacts on <code>garden</code> with 12 views (red box, enlarged on the right).</figcaption>
+            </figure>
+          </div>
+          <figure class="card figure-wide">
+            <img src="assets/img/bands.jpg" alt="Low- and high-frequency parts of LagerNVS and StereoGS" loading="lazy" />
+            <figcaption>Low- and high-frequency parts of LagerNVS and StereoGS, split with our first-order low-pass filter. LagerNVS is better at low frequencies, StereoGS at high frequencies.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section shell" id="method">
+        <div class="section-heading">
+          <p class="section-kicker">Method</p>
+          <h2>Fuse per frequency, then distill.</h2>
+          <p class="section-lede">
+            The relative reliability of the prior falls inversely with frequency, so the optimal fusion weight is a first-order low-pass filter with a single parameter: the crossover frequency where both models are equally reliable.
+          </p>
+        </div>
+        <figure class="card figure-wide">
+          <img src="assets/img/overview.png" alt="Overview of the method" loading="lazy" />
+        </figure>
+        <ol class="steps">
+          <li><span>A</span><div><h3>Fit the kernel once</h3><p>On a development set, we measure the optimal weight on the prior per frequency and fit the one-parameter low-pass kernel to it.</p></div></li>
+          <li><span>B</span><div><h3>Fuse into a teacher</h3><p>The kernel takes the low frequencies from the prior render and the high frequencies from the Gaussian render.</p></div></li>
+          <li><span>C</span><div><h3>Distill into the Gaussians</h3><p>The fused teachers and the real input views supervise the Gaussians, so the slow prior is gone at render time.</p></div></li>
+        </ol>
+      </section>
+
+      <section class="section section-tint" id="results">
+        <div class="shell">
+          <div class="section-heading">
+            <p class="section-kicker">Results</p>
+            <h2>Sharper far from the inputs, without the prior's artifacts.</h2>
+            <p class="section-lede">
+              We evaluate on LLFF with 3, 6 and 9 views and on Mip-NeRF 360 with 12 and 24 views, 42 settings in total.
+              The kernel is fitted on development settings that are held out from every evaluation.
+            </p>
+          </div>
+          <figure class="card figure-wide">
+            <img src="assets/img/qualitative.jpg" alt="Qualitative comparison on StereoGS" loading="lazy" />
+            <figcaption>Qualitative comparison on StereoGS, with the PSNR under each image. Green boxes mark where StereoGS fails, orange boxes where LagerNVS fails.</figcaption>
+          </figure>
+          <figure class="card table-card figure-wide">
+            <table>
+              <thead><tr><th>Method</th><th>FPS ↑</th><th>PSNR ↑</th><th>SSIM ↑</th><th>LPIPS ↓</th></tr></thead>
+              <tbody>
+                <tr><td>LagerNVS</td><td>34.7</td><td>21.99</td><td>.605</td><td>.228</td></tr>
+                <tr><td>StereoGS</td><td>882</td><td>23.15</td><td>.754</td><td>.199</td></tr>
+                <tr class="row-teacher"><td>StereoGS + Ours-Teacher</td><td>33.1</td><td><b>24.37</b></td><td>.753</td><td>.196</td></tr>
+                <tr class="row-distill"><td>StereoGS + Ours-Distilled</td><td><b>917</b></td><td>24.16</td><td><b>.766</b></td><td><b>.184</b></td></tr>
+              </tbody>
+            </table>
+            <figcaption>Rendering speed and quality, averaged over all 42 settings. Distillation keeps most of the teacher's gain and renders 28× faster than the teacher.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="section shell" id="citation">
+        <div class="section-heading">
+          <p class="section-kicker">Citation</p>
+          <h2>BibTeX</h2>
+        </div>
+        <div class="bibtex card">
+          <button class="copy" type="button" data-copy>Copy</button>
+<pre id="bibtex">@article{lin2026spectral,
+  title   = {Enhancing Sparse-View Gaussian Splatting with Feed-Forward Priors via Spectral Fusion and Distillation},
+  author  = {Lin, Weikai and Dai, Jun and Zhao, Sheng and Zhao, Junjie and Zhu, Yuhao},
+  journal = {arXiv preprint},
+  year    = {2026}
+}</pre>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="shell">University of Rochester · Video music: “Deliberate Thought” by Kevin MacLeod (incompetech.com), CC BY 4.0</div>
+    </footer>
+
+    <script>
+      const header = document.querySelector('[data-header]');
+      const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+      window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+      document.querySelector('[data-copy]').addEventListener('click', (e) => {
+        navigator.clipboard.writeText(document.getElementById('bibtex').textContent);
+        e.target.textContent = 'Copied'; setTimeout(() => (e.target.textContent = 'Copy'), 1500);
+      });
+    </script>
+  </body>
+</html>
